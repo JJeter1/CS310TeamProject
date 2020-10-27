@@ -12,6 +12,7 @@ import java.sql.*;
  * @author jeter4ja
  */
 public class punch {
+    String adjustmenttype = null;
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
    static final String DB_URL = "jdbc:mysql://localhost:3306/Tas";
    static final String USER = "tasuser";
@@ -63,6 +64,9 @@ public class punch {
                se.printStackTrace();
            }
        }
+       punch obj = new punch();
+       System.out.println("Adjustment for lunch " + obj.adjustmenttype);
+       
        
    }
 }
