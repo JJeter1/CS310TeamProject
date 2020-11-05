@@ -13,10 +13,10 @@ import java.sql.*;
  */
 public class Punch {
     String adjustmenttype = null;
-   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost:3306/Tas";
-   static final String USER = "tasuser";
-   static final String PASS = "cs310groupC";
+   public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   public static final String DB_URL = "jdbc:mysql://localhost:3306/Tas";
+   public static final String USER = "tasuser";
+   public static final String PASS = "cs310groupC";
    public void Punch(){
        Connection conn = null;
        Statement stmt = null;
@@ -69,4 +69,8 @@ public class Punch {
        
        
    }
+       public String printOriginalTimestamp(){
+           String result=null;
+           return result;
+       }
 }
