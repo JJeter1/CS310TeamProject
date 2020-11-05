@@ -16,7 +16,7 @@ public class Shift {
    public static final String USER = "tasuser";
    public static final String PASS = "cs310groupC";
    
-    public static void main(String args[]){
+    public void Shift(){
     Connection conn = null;
    Statement stmt = null;
    try{

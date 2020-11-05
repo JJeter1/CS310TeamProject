@@ -15,7 +15,7 @@ public class Badge {
    public static final String USER = "tasuser";
    public static final String PASS = "cs310groupC";
    
-    public static void main(String args[]){
+    public void Badge(){
     Connection conn = null;
    Statement stmt = null;
    try{
