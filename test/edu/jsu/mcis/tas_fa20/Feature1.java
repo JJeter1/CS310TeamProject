@@ -1,4 +1,4 @@
-package edu.jsu.mcis;
+package edu.jsu.mcis.tas_fa20;
 
 import org.junit.*;
 import static org.junit.Assert.*;

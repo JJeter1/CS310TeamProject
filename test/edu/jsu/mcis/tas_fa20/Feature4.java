@@ -1,4 +1,4 @@
-package edu.jsu.mcis;
+package edu.jsu.mcis.tas_fa20;
 
 import java.util.ArrayList;
 import org.junit.*;
