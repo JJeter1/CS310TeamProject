@@ -197,7 +197,6 @@ public class TASDatabase {
         int punchTerminalID = p.getTerminalid();
         String badgeID = p.getBadgeid();
         long timeStamp = p.getOriginaltimestamp();
-        
         String sqlQuery = "INSERT INTO punch (terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pState = conn.prepareStatement(sqlQuery, PreparedStatement.RETURN_GENERATED_KEYS);
