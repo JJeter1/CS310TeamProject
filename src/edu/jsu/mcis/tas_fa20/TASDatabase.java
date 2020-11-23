@@ -1,13 +1,20 @@
 package edu.jsu.mcis.tas_fa20;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.sql.PreparedStatement;
+import java.util.Calendar;
 
 public class TASDatabase {
     
     private Connection conn;
+    
+    boolean hasresults;
+    int columnCount = 0;
+    
     
     public TASDatabase() {
         
@@ -189,5 +196,41 @@ public class TASDatabase {
         return s;
         
     }
+    
+    public int insertPunch(Punch p) {   
+        
+        String badgeid = p.getBadgeid();
+        int terminalid = p.getTerminalid();
+        int punchtypeid = p.getPunchtypeid();
+        int punchid = 1;
+        
+        GregorianCalendar ots = new GregorianCalendar();
+        ots.setTimeInMillis(p.getOriginaltimestamp());
+        String originaltimestamp = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(ots.getTime());
+        
+        PreparedStatement pstatement;
+        int result = 0;
+        ResultSet resultset;
+        
+        try {
+     
+            String query = "INSERT INTO punch (terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?)";
+  
+            pstatement = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            pstatement.setInt(1, terminalid);
+            pstatement.setString(2, badgeid);
+            pstatement.setString(3, originaltimestamp);
+            pstatement.setInt(4, punchtypeid);
+            
+            pstatement.execute();
+            resultset = pstatement.getGeneratedKeys();
+            resultset.first();
+            return resultset.getInt(1);
    
+        }
+        catch (Exception e) {
+            System.err.println("** insertPunch: " + e.toString());
+        }
+        return punchid;
+    }
 }
