@@ -189,5 +189,35 @@ public class TASDatabase {
         return s;
         
     }
+    public int insertPunch(Punch p){
+        ResultSet resultset = null;
+        int updateCount=0;
+        int punchID = p.getId();
+        int punchTypeID = p.getPunchtypeid();
+        int punchTerminalID = p.getTerminalid();
+        String badgeID = p.getBadgeid();
+        long timeStamp = p.getOriginaltimestamp();
+        
+        String sqlQuery = "INSERT INTO punch (terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement pState = conn.prepareStatement(sqlQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+            pState.setInt(1,punchTerminalID);
+            pState.setString(2,badgeID);
+            pState.setLong(3,timeStamp);
+            pState.setInt(4,punchTypeID);
+            updateCount = pState.executeUpdate();
+            if (updateCount > 0) {
+                resultset = pState.getGeneratedKeys();
+                   if (resultset.next()) {
+                        System.out.println(resultset.getInt(1));
+
+                    }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return punchID;
+    }
+    
    
 }
