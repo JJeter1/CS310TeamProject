@@ -220,7 +220,7 @@ public class TASDatabase {
                 resultset = pState.getGeneratedKeys();
                    if (resultset.next()) {
                         System.out.println(resultset.getInt(1));
-
+                        
                     }
             }
         } catch (SQLException ex) {
@@ -229,5 +229,62 @@ public class TASDatabase {
         return punchID;
     }
     
-   
+    public ArrayList<Punch> getDailyPunchList(Badge badge, long ts) {
+        
+        ArrayList<Punch> list = new ArrayList();
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(ts);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format.format(calendar.getTime());        
+
+        try {
+        
+            /* Prepare Select Query */
+            
+            String query = "SELECT id,terminalid,badgeid,originaltimestamp,"
+                    + "punchtypeid FROM tas.punch WHERE badgeid = '"
+                    + badge.getId()+ "' AND originaltimestamp LIKE '%"
+                    + date + "%'";
+            
+            PreparedStatement pstatement = conn.prepareStatement(query);
+            
+            hasresults = pstatement.execute();                
+            ResultSet resultset = pstatement.getResultSet();
+            ResultSetMetaData metadata = resultset.getMetaData();
+            columnCount = metadata.getColumnCount(); 
+            
+            System.out.println("Getting Results ...");
+            
+            resultset = pstatement.getResultSet();                    
+                   
+            for(int i = 1; i < columnCount; i++) {
+                
+                resultset.next();
+                list.add(new Punch(resultset.getInt(1),resultset.getInt(2),
+                        resultset.getString(3) ,resultset.getLong(4) ,resultset.getInt(5)));
+            }
+        }        
+        catch (Exception e) {e.printStackTrace();
+           
+        }
+        
+        finally {
+            
+            PreparedStatement pstatment = null, pstUpdate = null;
+            ResultSet resultset = null;
+            
+            if (resultset != null) { try { resultset.close(); resultset = null; 
+            } catch (Exception e) {} }
+            
+            if (pstatment != null) { try { pstatment.close(); pstatment = null; 
+            } catch (Exception e) {} }
+            
+            if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; 
+            } catch (Exception e) {} }
+            
+        }
+        
+        return list;
+    }
+  
 }
